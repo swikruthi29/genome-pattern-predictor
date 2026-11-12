@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GenomeAI | DNA Classifier</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #edf4ff;
+            color: #172b50;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            padding: 35px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(30, 70, 130, 0.10);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        header h1 {
+            color: #1746a2;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #667895;
+            line-height: 1.6;
+        }
+
+        h2 {
+            color: #1746a2;
+            margin-top: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 130px;
+            padding: 18px;
+            border: 2px solid #d5e2f5;
+            border-radius: 12px;
+            font-size: 17px;
+            resize: vertical;
+            font-family: monospace;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #2463eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 17px;
+            margin-top: 18px;
+            background: #1559df;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1048b8;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #f0f5ff;
+            padding: 22px;
+            text-align: center;
+            border-radius: 14px;
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: #647895;
+        }
+
+        .card p {
+            font-size: 27px;
+            font-weight: bold;
+            color: #1559df;
+            margin: 10px 0;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 25px;
+            padding: 25px;
+            background: #e8f2ff;
+            border-radius: 15px;
+        }
+
+        .result h3 {
+            font-size: 23px;
+            color: #1559df;
+        }
+
+        .error {
+            background: #fff0f0;
+            color: #b42318;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 35px;
+            color: #8190a8;
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 22px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .grid {
+                gap: 10px;
+            }
+
+            .card {
+                padding: 14px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🧬 GenomeAI</h1>
+        <p>DNA Sequence Classifier</p>
+        <p>
+            Analyze DNA nucleotide composition,
+            GC content and predict genomic groups
+            using Machine Learning.
+        </p>
+    </header>
+
+    <form method="POST">
+
+        <label for="sequence">Enter DNA Sequence:</label>
+
+        <textarea
+            id="sequence"
+            name="sequence"
+            placeholder="Example: ATGCGCGATC"
+            required>{{ sequence }}</textarea>
+
+        <button type="submit">
+            Analyze DNA Sequence
+        </button>
+
+    </form>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if features %}
+
+        <h2>Analysis Results</h2>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>Adenine (A)</h3>
+                <p>{{ features[0] }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Thymine (T)</h3>
+                <p>{{ features[1] }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Guanine (G)</h3>
+                <p>{{ features[2] }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Cytosine (C)</h3>
+                <p>{{ features[3] }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Sequence Length</h3>
+                <p>{{ features[4] }}</p>
+            </div>
+
+            <div class="card">
+                <h3>GC Content</h3>
+                <p>{{ "%.2f"|format(features[5]) }}%</p>
+            </div>
+
+        </div>
+
+        <div class="result">
+            <h2>Prediction Result</h2>
+
+            <h3>Group {{ result }}</h3>
+
+            <p>
+                The machine learning model
+                classified this DNA sequence
+                into Group {{ result }}.
+            </p>
+        </div>
+
+    {% endif %}
+
+    <footer>
+        GenomeAI | Introduction to Computational Biology
+        <br>
+        AI/ML Based Genome Pattern Prediction
+    </footer>
+
+</div>
+
+</body>
+</html>
